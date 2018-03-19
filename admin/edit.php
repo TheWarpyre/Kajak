@@ -1,36 +1,36 @@
 <?php
 // including the database connection file
-include_once("config.php");
+include_once("../config.php");
 
 if(isset($_POST['update']))
-{	
+{
 
 	$id = mysqli_real_escape_string($mysqli, $_POST['id']);
-	
-	$name = mysqli_real_escape_string($mysqli, $_POST['name']);
-	$age = mysqli_real_escape_string($mysqli, $_POST['age']);
-	$email = mysqli_real_escape_string($mysqli, $_POST['email']);	
-	
+
+	$name = mysqli_real_escape_string($mysqli, $_POST['titel']);
+	$age = mysqli_real_escape_string($mysqli, $_POST['dato']);
+	$email = mysqli_real_escape_string($mysqli, $_POST['beskrivelse']);
+
 	// checking empty fields
-	if(empty($name) || empty($age) || empty($email)) {	
-			
+	if(empty($name) || empty($age) || empty($email)) {
+
 		if(empty($name)) {
 			echo "<font color='red'>Name field is empty.</font><br/>";
 		}
-		
+
 		if(empty($age)) {
 			echo "<font color='red'>Age field is empty.</font><br/>";
 		}
-		
+
 		if(empty($email)) {
 			echo "<font color='red'>Email field is empty.</font><br/>";
-		}		
-	} else {	
+		}
+	} else {
 		//updating the table
-		$result = mysqli_query($mysqli, "UPDATE users SET name='$name',age='$age',email='$email' WHERE id=$id");
-		
+		$result = mysqli_query($mysqli, "UPDATE nyheder SET titel='$name',dato='$age',beskrivelse='$email' WHERE id=$id");
+
 		//redirectig to the display page. In our case, it is index.php
-		header("Location: index.php");
+		header("Location: nyheder.php");
 	}
 }
 ?>
@@ -39,37 +39,37 @@ if(isset($_POST['update']))
 $id = $_GET['id'];
 
 //selecting data associated with this particular id
-$result = mysqli_query($mysqli, "SELECT * FROM users WHERE id=$id");
+$result = mysqli_query($mysqli, "SELECT * FROM nyheder WHERE id=$id");
 
 while($res = mysqli_fetch_array($result))
-{
-	$name = $res['name'];
-	$age = $res['age'];
-	$email = $res['email'];
+
+	$name = $res['titel'];
+	$age = $res['dato'];
+	$email = $res['beskrivelse'];
 }
 ?>
 <html>
-<head>	
+<head>
 	<title>Edit Data</title>
 </head>
 
 <body>
 	<a href="index.php">Home</a>
 	<br/><br/>
-	
+
 	<form name="form1" method="post" action="edit.php">
 		<table border="0">
-			<tr> 
+			<tr>
 				<td>Name</td>
-				<td><input type="text" name="name" value="<?php echo $name;?>"></td>
+				<td><input type="text" name="titel" value="<?php echo $name;?>"></td>
 			</tr>
-			<tr> 
+			<tr>
 				<td>Age</td>
-				<td><input type="text" name="age" value="<?php echo $age;?>"></td>
+				<td><input type="text" name="dato" value="<?php echo $age;?>"></td>
 			</tr>
-			<tr> 
+			<tr>
 				<td>Email</td>
-				<td><input type="text" name="email" value="<?php echo $email;?>"></td>
+				<td><input type="text" name="beskrivelse" value="<?php echo $email;?>"></td>
 			</tr>
 			<tr>
 				<td><input type="hidden" name="id" value=<?php echo $_GET['id'];?>></td>
